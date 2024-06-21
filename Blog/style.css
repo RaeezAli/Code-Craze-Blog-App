@@ -1,0 +1,397 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@700;900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Raleway', sans-serif;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #ADBC9F;
+}
+
+.header-Section {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ADBC9F;
+}
+
+.header-Section .navbar {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    background-color: #ADBC9F;
+}
+
+.header-Section .navbar .sticking {
+    width: 90%;
+    height: 60px;
+    display: flex;
+    justify-content: space-evenly;
+    background-color: #FBFADA;
+    z-index: 5;
+    border: 0;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    border-radius: 40px;
+}
+
+.logo {
+    margin: 0;
+    color: #12372A;
+    text-transform: uppercase;
+    user-select: none;
+    cursor: pointer;
+}
+
+.logo-section {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 0 0 50px ;
+}
+
+.profile-section {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    padding: 0 50px 0 0;
+}
+
+.profile-section img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    mix-blend-mode: multiply;
+    cursor: pointer;
+}
+
+.profile-info {
+    position: fixed;
+    width: 200px;
+    height: auto;
+    background-color: white;
+    border-radius: 10px;
+    display: none;
+    top: 65px;
+    right: 100px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+
+.profile-info ul {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    text-align: center;
+    padding: 2px;
+}
+
+.profile-info ul li {
+    width: 100%;
+    height: 35px;
+    color: #12372A;
+    list-style: none;
+    font-size: small;
+    padding: 10px 0 0 0;
+    user-select: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.5 ease-in-out;
+}
+
+.profile-info ul li:hover {
+    border-radius: 10px;
+    background-color: #12372A;
+    color: white;
+}
+
+.blog-Section {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ADBC9F;
+}
+
+.blog-Section .blog-data {
+    width: 70%;
+    background-color: white;
+    height: auto;
+    padding: 20px 40px;
+    border-radius: 20px;
+}
+
+.blog-Section .blog-data .heading {
+    height: 40px;
+}
+
+.blog-Section .blog-data .margin {
+    width: 100%;
+    height: 2px;
+    background-color: #ADBC9F;
+}
+
+.category {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.sub-Heading , .category {
+    margin: 7px 0;
+}
+
+.blog-Section .blog-data .info {
+    width: 100%;
+    padding: 10px 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.blog-Section .blog-data .info .title-input {
+    width: 40%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.blog-Section .blog-data .info .title-input input , .options {
+    height: 40px;
+    border-radius: 5px;
+    padding: 0 10px;
+    font-size: 17px;
+    margin: 0 0 5px 0;
+}
+
+.blog-Section .blog-data .info .categories{
+    width: 40%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.blog-Section .blog-data .info .categories span{
+    width: 100%; 
+    height: 30px;
+    border: 1px solid gray;
+    text-align: center;
+    justify-content: center;
+}
+
+.blog-Section .blog-data .type-Selection {
+    width: 100%;
+    padding: 10px 30px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.radio {
+    margin: 0 3px 0 10px;
+}
+
+.blog-Section .blog-data .type-Selection .select-type {
+    width: 40%;
+}
+
+.blog-Section .blog-data .type-Selection .select-status {
+    width: 40%;
+}
+
+.image-input {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 10px 30px;
+}
+
+.image-input .input-image {
+    height: 40px;
+    border-radius: 5px;
+    padding: 10px 10px;
+    font-size: 17px;
+}
+
+.blog-Section .blog-data .description {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 10px 30px;   
+}
+
+.blog-Section .blog-data .description textarea{
+    padding: 10px;    
+}
+
+.blog-Section .blog-data .button-section {
+    width: 100%;
+    height: 40px;
+    margin: 15px 0 0 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 30px;
+}
+
+.save-button , .cancel-button{
+    color: white;
+    background-color: #12372A;
+    padding: 11px 28px;
+    border-radius: 25px;
+    border: 0;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    font-weight: bold;
+}
+
+@media (min-width: 300px) and (max-width: 700px) {
+
+    .logo-section {
+        padding: 0 0 0 25px ;
+        font-size: 12px;
+    }
+
+    .profile-section {
+        padding: 0 25px 0 0;
+    }
+
+    .profile-section .profile-picture {
+        width: 35px;
+        height: 35px;
+    }
+
+    .profile-info {
+        top: 65px;
+        right: 40px;
+    }
+
+    .blog-Section {
+        width: 100%;
+        height: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #ADBC9F;
+        padding: 20px 0;
+    }
+    
+    .blog-Section .blog-data {
+        width: 90%;
+        height: auto;
+        padding: 10px 20px;
+    }
+    
+    .blog-Section .blog-data .heading {
+        height: 40px;
+        font-size: 15px;
+        margin: 10px 0 5px 0;
+    }
+    
+    
+    .blog-Section .blog-data .info {
+        width: 100%;
+        padding: 5px 15px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    
+    .blog-Section .blog-data .info .title-input {
+        width: 100%;
+        height: 40%;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .blog-Section .blog-data .info .title-input input , .options {
+        height: 40px;
+        border-radius: 5px;
+        padding: 0 10px;
+        font-size: 15px;
+        margin: 0;
+    }
+    
+    .blog-Section .blog-data .info .categories{
+        width: 100%;
+        height: 40%;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .sub-Heading , .category {
+        margin: 10px 0;
+    }
+    
+    .blog-Section .blog-data .type-Selection {
+        width: 100%;
+        padding: 5px 15px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    
+    .radio {
+        margin: 0 3px 0 10px;
+    }
+    
+    .blog-Section .blog-data .type-Selection .select-type {
+        width: 100%;
+    }
+    
+    .blog-Section .blog-data .type-Selection .select-status {
+        width: 100%;
+    }
+    
+    .image-input {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 5px 15px;
+    }
+    
+    .image-input .input-image {
+        height: 40px;
+        border-radius: 5px;
+        padding: 10px 10px;
+        font-size: 15px;
+    }
+    
+    .blog-Section .blog-data .description {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 5px 15px;   
+    }
+    
+    .blog-Section .blog-data .description textarea{
+        padding: 10px;    
+    }
+    
+    .blog-Section .blog-data .button-section {
+        width: 100%;
+        height: 40px;
+        margin: 15px 0 0 0;
+        display: flex;
+        justify-content: space-between;
+        padding: 0 30px;
+    }
+    
+    .save-button , .cancel-button{
+        color: white;
+        background-color: #12372A;
+        padding: 11px 28px;
+        border-radius: 25px;
+        border: 0;
+        box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+        font-weight: bold;
+    }
+
+}

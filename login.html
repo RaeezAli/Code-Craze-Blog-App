@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="Login/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+    <section class="login-Section">
+
+        <div class="login-page">
+
+            <div class="heading">
+
+                <span>Login</span>
+
+            </div>
+           
+
+            <form class="user-Data-Input">
+
+                <input required type="email" class="email-input" name="email" id="email-input" placeholder="Email">
+                
+                <div class="password-section">
+
+                    <input required type="password" id="password-input" class="password-input" name="password" placeholder="Password">
+                    <span class="showPassword" id="showPassword">Show</span>
+                
+                </div>
+
+                <a href="#" class="forget-Password">Forget Password?</a>
+
+                <button type="submit" id="login-button" class="login-button">Login</button>
+
+                <p>Don't have an Account? <a id="signUp" href="./signUp.html">Sign Up</a></p>
+
+            </form>
+
+            <div class="margin-section">
+
+                <div class="margin"></div>
+                <div><span class="or">Or</span></div>
+                <div class="margin"></div>
+
+            </div>
+
+            <div class="button-section">
+
+                <button type="button" class="login-google-button"> <img class="gg-logo" src="Login/google image.png" alt="" srcset=""> Login with Google</button>
+                <button type="button" class="apple-login-button"> <i class="user-logo fa-solid fa-user"></i>Enter Anonymously</button>
+
+
+            </div>
+
+        </div>
+
+    </section>
+    
+
+    <script type="module" src="Login/main.js"></script>
+
+</body>
+</html>

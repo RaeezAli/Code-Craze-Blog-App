@@ -1,0 +1,254 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Raleway', sans-serif;
+    box-sizing: border-box;
+}
+
+.login-Section {
+    width: 100%;
+    height: 100vh;
+    /* background-color: rgb(99, 4, 187); */
+    display: flex;
+    background-color: #12372A;
+}
+
+.login-page {
+    width: 400px;
+    height: 500px;
+    background-color: #FBFADA;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 20px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.heading {
+    width: 80%;
+    height: 15%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #12372A;
+}
+
+.user-Data-Input {
+    width: 80%;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-Data-Input .email-input {
+    width: 100%;
+    height: 40px;
+    border-radius: 5px;
+    padding: 0 10px;
+    font-size: 17px;
+    margin: 15px 0 10px 0;
+}
+
+.user-Data-Input .password-section {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    margin: 0 0 10px 0;
+    border: 1px solid black;
+    border-radius: 7px;
+    justify-content: space-evenly;
+    background-color: #436850;
+}
+
+.user-Data-Input .password-section .password-input {
+    width: 85%;
+    height: 40px;
+    padding: 0 10px;
+    font-size: 17px;
+    border: 0;
+    border-bottom: 1px solid black;
+    border-top: 1px solid black;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-top-left-radius: 7px;
+    border-bottom-left-radius: 7px;
+}
+
+.user-Data-Input .password-section .showPassword {
+    height: 100%;
+    width: 15%;
+    cursor: pointer;
+    color: white;
+    background-color: #436850;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top-right-radius: 7px;
+    border-bottom-right-radius: 7px;
+    font-size: 13px;
+    user-select: none;
+}
+
+.user-Data-Input a {
+    font-weight: bold;
+    color: #12372A;
+    text-decoration: none;
+}
+
+.user-Data-Input .login-button {
+    width: 100%;
+    height: 40px;
+    border-radius: 7px;
+    margin: 15px 0;
+    background-color: #12372A;
+    color: white;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+
+.margin-section {
+    width: 85%;
+    height: 10%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.margin-section .margin {
+    height: 1px;
+    width: 40%;
+    background-color: black;
+} 
+
+.margin-section span {
+    margin: 0 10px;
+}
+
+.button-section {
+    width: 80%;
+    height: 25%;
+    display: flex;
+    flex-direction: column;
+}
+
+.button-section .login-google-button {
+    width: 100%;
+    height: 40px;
+    border-radius: 7px;
+    margin: 5px 0 5px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+
+.button-section .apple-login-button {
+    width: 100%;
+    height: 40px;
+    border-radius: 7px;
+    margin: 5px 0 5px 0;
+    color: white;
+    background-color: black;
+    border: 0;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+
+.gg-logo {
+    width: 17px;
+    margin-right: 10px;
+}
+
+.user-logo {
+    width: 30px;
+}
+
+button {
+    font-weight: bold;
+}
+
+@media (min-width: 300px) and (max-width: 700px) {
+
+    .login-page{
+        width: 300px;
+        height: 400px;
+        padding: 10px 0;
+        justify-content: center;
+    }
+
+    .heading {
+        font-size: 20px;
+        height: 10%;
+    }
+    
+    .user-Data-Input .email-input {
+        width: 100%;
+        height: 50px;
+        font-size: 15px;
+    }
+
+    .user-Data-Input .password-section {
+        width: 100%;
+        height: 50px;
+    }
+    
+    .user-Data-Input .password-section .password-input {
+        width: 85%;
+        height: 100%;
+        padding: 0 10px;
+        font-size: 15px;
+    }
+    
+    .user-Data-Input .password-section .showPassword {
+        height: 100%;
+        width: 15%;
+        font-size: 10px;
+    }
+
+    .user-Data-Input a {
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    .user-Data-Input .login-button {
+        width: 100%;                
+        height: 50px;
+        margin: 5px 0 5px 0;
+    }
+
+    .user-Data-Input p {
+        font-size: 12px;
+    }
+
+    button {
+        font-size: 12px;
+    }
+
+    .or {
+        font-size: 13px;
+    }
+
+    .button-section .login-google-button {
+        width: 100%;
+        height: 40px;
+        margin: 0 0 10px 0;
+    }
+    
+    .button-section .apple-login-button {
+        width: 100%;
+        height: 40px;
+    }
+
+}

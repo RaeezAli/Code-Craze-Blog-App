@@ -1,0 +1,420 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+
+*{
+    margin: 0;
+    color: white;
+    text-decoration: none;
+    font-family: 'Raleway', sans-serif;
+    font-weight: bold;
+    box-sizing: border-box;
+}
+
+.header-Section {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ADBC9F;
+}
+
+.header-Section .navbar {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    background-color: #ADBC9F;
+}
+
+.header-Section .navbar .sticking {
+    width: 90%;
+    height: 60px;
+    display: flex;
+    justify-content: space-evenly;
+    background-color: #FBFADA;
+    z-index: 5;
+    border: 0;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    border-radius: 40px;
+}
+
+.logo {
+    margin: 0;
+    color: #12372A;
+    text-transform: uppercase;
+    user-select: none;
+}
+
+.logo-section {
+    width: 15%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+
+.facility-section {
+    width: 40%;
+    height: 100%;
+    align-items: center;
+    display: flex;
+}
+
+.facility-section .searchBar-Div {
+    width: 100%;
+    height: 70%;
+    display: flex;
+    border-radius: 20px;
+    border: 1px solid gray;
+}
+
+.facility-section .searchBar-Div .searchBar {
+    width: 90%;
+    padding: 5px 10px 5px 25px; 
+    color: black;
+    font-size: large;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border: 0;
+}
+
+.facility-section .searchBar-Div .search-icon {
+    width: 10%;
+    height: 100%;
+    background-color: gray;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    font-size: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 0;
+}
+
+.blog-section {
+    width: 25%;
+    display: flex;
+    align-self: center;
+    justify-content: center;
+}
+
+.blog-section .blog-button {
+    background-color: #12372A;
+    padding: 11px 28px;
+    border-radius: 25px;
+    border: 0;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+
+.profile-section {
+    width: 10%;
+    height: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.profile-section img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    mix-blend-mode: multiply;
+    cursor: pointer;
+}
+
+.profile-info {
+    position: absolute;
+    width: 200px;
+    height: auto;
+    background-color: white;
+    border-radius: 10px;
+    display: none;
+    top: 65px;
+    right: 100px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+
+.profile-info ul {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    text-align: center;
+    padding: 2px;
+}
+
+.profile-info ul li {
+    width: 100%;
+    height: 35px;
+    color: #12372A;
+    list-style: none;
+    font-size: small;
+    padding: 10px 0 0 0;
+    user-select: none;
+    cursor: pointer;
+    transition: all 0.5 ease-in-out;
+}
+
+.profile-info ul li:hover {
+    background-color: #12372A;
+    color: white;
+    border-radius: 10px;
+}
+
+.button-section .login-button {
+    background-color: #12372A;
+    padding: 11px 28px;
+    border-radius: 25px;
+    border: 0;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+
+.main-Data {
+    color: black;
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;  
+    background-color: #ADBC9F;
+    padding: 20px;
+}
+
+.main-Data .qna-Data {
+    width: 95%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 20px;
+    padding: 20px 0;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+
+}
+
+.question {
+    width: 95%;
+    height: auto;
+    display: flex;
+    background-color: #FBFADA;
+    border-radius: 12px;
+    margin: 10px 0 5px 0;
+    padding: 10px 20px;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+}
+
+.info-Data {
+    width: 80%;
+    padding: 20px 40px;
+}
+
+.heading {
+    width: 100%;
+    height: 60px;
+    display: flex;
+    align-items: baseline;
+}
+
+.heading h1 {
+    color: black;
+}
+
+.description {
+    width: 100%;
+    height: 80px;
+}
+
+.description p {
+    color: black;
+}
+
+.description p a {
+    color: #12372A;
+}
+
+.admin-info {
+    width: 100%;
+    height: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+}
+
+.admin-info span ,.admin-info span i {
+    color: black;
+}
+
+.image-Section {
+    width: 20%;
+}
+
+.image-url {
+    width: 100%;
+    height: 100%;
+}
+
+@media (min-width: 300px) and (max-width: 700px) {
+
+    .header-Section .navbar {
+        width: 100%;
+        height: 80px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        background-color: #ADBC9F;
+    }
+        
+    .logo {
+        margin: 0;
+        color: #12372A;
+        text-transform: uppercase;
+        user-select: none;
+    }
+    
+    .logo-section {
+        width: 40%;
+        height: 100%;
+        font-size: 12px;
+    }    
+    
+    .facility-section {
+        display: none;
+        
+    }
+    
+    .blog-section {
+        display: none;
+    }
+    
+    .profile-section {
+        width: 40%;
+        height: 100%;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+    
+    .profile-section .profile-picture {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        mix-blend-mode: multiply;
+        cursor: pointer;
+    }
+    .profile-info {
+        position: absolute;
+        width: 200px;
+        height: auto;
+        background-color: white;
+        border-radius: 10px;
+        display: none;
+        top: 65px;
+        right: 40px;
+    }
+    
+    .profile-info ul {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        text-align: center;
+    }
+    
+    .profile-info ul li {
+        width: 100%;
+        height: 35px;
+        color: #12372A;
+        list-style: none;
+        font-size: small;
+        padding: 10px 0 0 0;
+        user-select: none;
+        cursor: pointer;
+    }
+
+    .main-Data {
+        padding: 10px;
+    }
+    
+    .main-Data .qna-Data {
+        width: 95%;
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    
+    }
+    
+    .question {
+        width: 95%;
+        height: auto;
+        display: flex;
+        background-color: #FBFADA;
+        border-radius: 12px;
+        margin: 10px 0 5px 0;
+        padding: 5px 5px;
+        box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+        flex-direction: column;
+    }
+    
+    .info-Data {
+        width: 100%;
+        padding: 5px 10px;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .heading {
+        width: 100%;
+        height: 60px;
+        display: flex;
+        align-items: baseline;
+    }
+    
+    .heading h1 {
+        color: black;
+    }
+    
+    .description {
+        width: 100%;
+        height: 80px;
+    }
+    
+    .description p {
+        color: black;
+    }
+    
+    .description p a {
+        color: #12372A;
+    }
+    
+    .admin-info {
+        width: 100%;
+        height: 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+    }
+    
+    .admin-info span ,.admin-info span i {
+        color: black;
+    }
+    
+    /* .image-Section {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    } */
+
+    .image-Section {
+        display: none;
+    }
+    
+    /* .image-url {
+        width: 200px;
+        height: 200px;
+    } */
+
+
+}
