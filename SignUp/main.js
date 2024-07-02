@@ -58,6 +58,7 @@ function signUpUser(email, password, username) {
             const user = userCredential.user;
             const signUpMethod = 'emailPassword'; // Set sign-up method
             addUserToFirestore(user.uid, email, username, signUpMethod);
+            window.location.href = 'index.html'; // Change 'index.html' to your actual home page URL
         })
         .catch((error) => {
             console.error(error.message);
