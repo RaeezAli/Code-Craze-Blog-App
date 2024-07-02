@@ -1,7 +1,7 @@
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-import { getStorage, ref, uploadString, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 import { getAuth , onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 const firebaseConfig = {
@@ -22,12 +22,12 @@ const auth = getAuth(app);
 const storage = getStorage(app);
 const userPhotoUrl = localStorage.getItem('userPhoto');
 const cancelBtn = document.getElementById('cancle');
-const profilePicture = document.getElementById('profile-picture');
+const profilePicture = document.getElementById('profile-section');
 const infoList = document.getElementById('profile-info');
-const username = localStorage.getItem('username');
 const userName = document.getElementById('user-name');
 const logInOut = document.getElementById('log-in-out');
-
+const displayUser = document.getElementById('displayUser');
+const email = localStorage.getItem('email');
 
 profilePicture.addEventListener('click', function () {
 
@@ -40,14 +40,6 @@ profilePicture.addEventListener('click', function () {
 
 function updateUI(user) {
 
-  if(userPhotoUrl) {
-    profilePicture.src = userPhotoUrl;
-  }
-
-  else{
-    profilePicture.src = 'User.webp'
-  }
-
   if (user) {
       // User is signed in
       if (user.isAnonymous) {
@@ -56,7 +48,7 @@ function updateUI(user) {
         logInOut.textContent = 'Log In';
       } else {
         
-          userName.textContent = username || "User";
+          userName.textContent = email || "User";
           logInOut.textContent = 'Log Out';
           
       }
@@ -65,6 +57,11 @@ function updateUI(user) {
         logInOut.textContent = 'Log In';
       userName.style.display = "none";
   }
+
+  if(email) {
+    displayUser.textContent = email.charAt(0).toUpperCase();
+  }
+
 }
 
 // Listen for changes in authentication state
@@ -92,7 +89,7 @@ cancelBtn.addEventListener('click', () => {
 document.addEventListener('DOMContentLoaded', () => {
   const saveBtn = document.getElementById('save');
   
-  saveBtn.addEventListener('click', async () => {
+    saveBtn.addEventListener('click', async () => {
     const title = document.getElementById('title').value;
     const category = document.getElementById('category').value;
     const type = document.querySelector('input[name="type"]:checked').value;
@@ -102,44 +99,67 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const username = localStorage.getItem('username');
 
-    if (!title || !category || !type || !status || !description || !imageFile) {
+    if (title == '' || category == '' || type == '' || status == '' || description == '' || imageFile == '') {
       alert('Please fill in all required fields.');
       return;
     }
 
-    await saveDataToFirestore(title, category, type, status, description, imageFile, username);
+    saveBtn.innerHTML = "Loading...";
+    saveBtn.disabled = true;
+
+    await saveDataToFirestore(title, category, type, status, description, imageFile, username , email);
+
+    saveBtn.innerHTML = "Save";
+    saveBtn.disabled = false;
+
+    alert("Blog is saved successfully");
+    window.location.reload();
   });
+
+  
 });
 
-async function saveDataToFirestore(title, category, type, status, description, imageFile , username) {
-  // Upload image to Firebase Storage
-  const storageRef = ref(storage, 'images/' + imageFile.name);
-  await uploadString(storageRef, imageFile);
-
-  // Get the download URL of the uploaded image
-  const imageUrl = await getDownloadURL(storageRef);
-
+async function saveDataToFirestore(title, category, type, status, description, imageFile, username, email) {
   const now = new Date();
-  const day = String(now.getDate()).padStart(2, '0');
-  const month = String(now.getMonth() + 1).padStart(2, '0');
-  const year = now.getFullYear();
-  const formattedDate = `${day}-${month}-${year}`;
-  
+  const timestamp = now.getTime();
+  const blogId = generateBlogId(); // Generate or fetch the blog ID somehow
+
   try {
-    await addDoc(collection(db, 'blogs'), {
+    const imageName = `${blogId}/${timestamp}_${imageFile.name}`;
+    const storageRef = ref(storage, 'images/' + imageName);
+    
+    const snapshot = await uploadBytes(storageRef, imageFile);
+    const imageUrl = await getDownloadURL(snapshot.ref);
+    const formattedDate = `${now.getDate()}-${now.getMonth() + 1}-${now.getFullYear()}`;
+
+    const blogRef = collection(db, 'blogs');
+    const docRef = await addDoc(blogRef, {
       title: title,
+      email: email,
       category: category,
       type: type,
       status: status,
       description: description,
       imageUrl: imageUrl,
       username: username,
-      date: formattedDate
+      date: formattedDate,
+      blogId: blogId // Optionally store blogId in Firestore for reference
     });
 
+    console.log('Document written with ID:', docRef.id);
+    return docRef.id;
   } catch (error) {
-    console.error('Error adding document: ', error);
+    console.error('Error adding document:', error);
+    throw error; // Propagate the error for handling at a higher level
   }
+}
+
+function generateBlogId() {
+  // Generate a timestamp to create a unique ID
+  const timestamp = new Date().getTime();
+
+  // Return the generated ID
+  return `blog_${timestamp}`;
 }
 
 

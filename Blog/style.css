@@ -129,6 +129,7 @@ body {
     background-color: white;
     height: auto;
     padding: 20px 40px;
+    margin: 35px 0 0 0;
     border-radius: 20px;
 }
 
@@ -250,6 +251,14 @@ body {
     border: 0;
     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
     font-weight: bold;
+}
+
+@media (min-width: 700px) and (max-width: 1170px) {
+    
+    .blog-Section .blog-data {
+        width: 90%;
+    }
+    
 }
 
 @media (min-width: 300px) and (max-width: 700px) {

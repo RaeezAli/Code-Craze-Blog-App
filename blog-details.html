@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="Question/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+
+    <header class="header-Section">
+
+        <div class="navbar">
+
+            <div class="sticking">
+
+                <div class="logo-section">
+
+                    <h3 class="logo">Code CrazeHub</h3>
+
+                </div>
+
+                <div class="profile-section">
+                    <div class="avatar placeholder image">
+                        <div class="text-neutral-content rounded-full w-12 bkgd-green">
+                            <span id="displayUser"></span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </header>
+
+    <div id="profile-info" class="profile-info">
+        <ul id="profile-List">
+            <li id="user-name">Anonymous User</li>
+            <li id="log-in-out">Log Out</li>
+        </ul>
+    </div>
+
+    <section class="main-Body">
+
+        <main class="solution">
+
+            <div class="data">
+
+                <div class="heading">
+                    <h1 id="title"></h1>
+                </div>
+
+                <div class="paragraph">
+                    <p id="description"></p>
+
+                    <div class="image-section">
+                        <img class="image-url" id="blog-image" src="" alt="" srcset="">
+                    </div>
+
+
+                    <div class="admin-info">
+                        <p><span>Published by: </span> <span id="name"></span></p>
+                        <p><span>Date:</span> <span id="date"></span></p>
+                    </div>
+
+                    <div class="comment-Section">
+                        <p>Add Your Thoughts</p>
+                        
+                        <textarea name="comment" id="comment" cols="112" rows="10" placeholder="Comment..."></textarea>
+                    </div>
+
+                    <button type="button" id="submit-button" class="submit-button">Submit</button>
+                </div>
+
+                
+
+            </div>
+
+        </main>
+
+        <div class="commentSection" id="comment-Section">
+
+        </div>
+
+    </section>
+    
+    <script type="module" src="Question/main.js"></script>
+
+</body>
+</html>

@@ -38,7 +38,7 @@ showPasswordElement.addEventListener('click', () => {
 onAuthStateChanged(auth, (user) => {
     if (user) {
         
-      window.location.href = "index.html";
+    //   window.location.href = "index.html";
     }
   });
 
@@ -70,6 +70,7 @@ loginForm.addEventListener('submit', async (e) => {
                         const user = userCredential.user;
                         console.log("User signed in:", user.uid);
                         localStorage.setItem('username', userData.username);
+                        localStorage.setItem('email', userData.email);
                         window.location.href = 'index.html'; 
                     })
                     .catch((error) => {
@@ -112,7 +113,8 @@ googleSignInButton.addEventListener('click', async () => {
                 if (signUpMethod === 'googleSignUp') {
                     // User signed up with Google, proceed with sign-in
                     console.log("User exists with Google sign-up:", user.email);
-                    localStorage.setItem('username', userData.username);
+                    localStorage.setItem('name', user.username);
+                    localStorage.setItem('email', user.email);
                     window.location.href = 'index.html'; // Change 'index.html' to your actual index page URL
                 } else {
                     // User did not sign up with Google, display error message or handle as needed

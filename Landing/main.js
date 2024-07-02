@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getStorage, ref, uploadBytesResumable ,listAll, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+import { getStorage, ref , listAll, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 import { getAuth , onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getFirestore, collection, getDocs, } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getFirestore, collection, getDocs, doc , getDoc} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
 const firebaseConfig = {
@@ -18,162 +18,53 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
-const storage = getStorage();
+const storage = getStorage(app);
 
-const profilePicture = document.getElementById('profile-picture');
+const profilePicture = document.getElementById('bkgd-green');
 const infoList = document.getElementById('profile-info');
 const logInOut = document.getElementById('log-in-out');
-const userName = document.getElementById('user-name');
+const displayUserName = document.getElementById('user-name');
 const blogPage = document.getElementById('blog-button');
-const username = localStorage.getItem('username');
+const username = localStorage.getItem('name');
+const email = localStorage.getItem('email');
 const userPhotoUrl = localStorage.getItem('userPhoto');
+const displayUser = document.getElementById('displayUser');
+
 
 profilePicture.addEventListener('click', function () {
-
-  if (infoList.style.display === 'none' || infoList.style.display === '') {
-    infoList.style.display = 'block';
-  } else {
-    infoList.style.display = 'none';
-  }
+  infoList.style.display = (infoList.style.display === 'none' || infoList.style.display === '') ? 'block' : 'none';
 });
 
-
-
 function updateUI(user) {
-
-  if(userPhotoUrl) {
-    profilePicture.src = userPhotoUrl;
-  }
-
-  else{
-    profilePicture.src = 'User.webp'
-  }
-
+  
   if (user) {
-      // User is signed in
-      if (user.isAnonymous) {
-        
-        userName.textContent = "Anonymous User";
-        logInOut.textContent = 'Log In';
-      } else {
-        
-          userName.textContent = username || "User";
-          logInOut.textContent = 'Log Out';
-          
-      }
+    displayUserName.textContent = user.isAnonymous ? "Anonymous User" : (email || "User");
+    logInOut.textContent = 'Log Out';
   } else {
-      // User is not signed in
-        logInOut.textContent = 'Log In';
-      userName.style.display = "none";
+    logInOut.textContent = 'Log In';
+    displayUserName.style.display = "none";
+  }
+
+  
+  if(email) {
+    displayUser.textContent = email.charAt(0).toUpperCase();
   }
 }
 
-// Listen for changes in authentication state
 onAuthStateChanged(auth, (user) => {
-  updateUI(user); // Update UI based on authentication status
+  updateUI(user);
 });
 
 logInOut.addEventListener('click', () => {
-
-
   if (auth.currentUser) {
     auth.signOut();
-    window.location.href = 'login.html';
-
-  } else {
-    window.location.href = 'login.html';
   }
-
+  localStorage.removeItem('userPhoto');
+  localStorage.removeItem('username');
+  localStorage.removeItem('email');
+  window.location.href = 'login.html';
 });
 
-document.addEventListener('DOMContentLoaded', async () => {
-
-  const mediaQuery = window.matchMedia("(min-width: 300px) and (max-width: 700px)");
-
-  function handleScreenChange(e) {
-      const list = document.getElementById('profile-List');
-
-      const appendedItems = document.querySelectorAll('.appended-item');
-      // appendedItems.forEach(item => item.remove());
-
-      if (e.matches) {
-        
-          const li = document.createElement('li');
-          li.textContent = 'Write or Ask';
-          li.classList.add('appended-item');
-
-          list.prepend(li);
-          li.addEventListener('click', () => {
-
-            const user = auth.currentUser;
-  if (user) {
-    if (user.isAnonymous) {
-      alert('Anonymous users cannot access the blog. Please sign in with an email or Google account.');
-    } else {
-      window.location.href = 'blog.html';
-    }
-  } else {
-    alert('Please log in first.');
-  }
-
-          }); 
-      }
-  }
-
-  handleScreenChange(mediaQuery);
-
-  mediaQuery.addListener(handleScreenChange);
-
-
-  const qnaDataContainer = document.getElementById('qnaData');
-
-  async function fetchBlogs() {
-    const querySnapshot = await getDocs(collection(db, 'blogs'));
-    const allBlogs = querySnapshot.docs.map(doc => doc.data());
-
-    displayBlogs(allBlogs);
-  }
-
-  function displayBlogs(blogs) {
-
-    console.log(blogs)
-    qnaDataContainer.innerHTML = "";
-
-    blogs.forEach(data => {
-      const div = document.createElement("div");
-      div.setAttribute("class", "question");
-      div.addEventListener('click', () => questionSection(data));
-
-      div.innerHTML = `
-        <div class="info-Data">
-          <div class="heading">
-            <h1>${data.title}</h1>
-          </div>
-          <div class="description">
-            <p>${data.description}</p>
-          </div>
-          <div class="admin-info">
-            <span class="admin-Name"><i class="fa-solid fa-user"></i> ${data?.username}</span>
-            <span class="issue-Date">${data?.date}</span>
-          </div>
-        </div>
-        <div class="image-Section" id='image-Section'>
-        </div>
-      `;
-
-      qnaDataContainer.appendChild(div);
-    });
-  }
-
-  // Call the fetchBlogs function to load the blogs initially
-  await fetchBlogs();
-});
-
-// Example function for handling clicks on blog entries
-function questionSection(data) {
-  // Implement your functionality here
-  console.log('Blog clicked:', data);
-}
 
 blogPage.addEventListener('click', () => {
   const user = auth.currentUser;
@@ -188,42 +79,141 @@ blogPage.addEventListener('click', () => {
   }
 });
 
-async function getImageUrls() {
-  const storage = getStorage();
-  const storageRef = ref(storage, 'images'); // Update path to your images directory
 
+document.addEventListener('DOMContentLoaded', async () => {
+  const mediaQuery = window.matchMedia("(min-width: 300px) and (max-width: 700px)");
+  
+  function handleScreenChange(e) {
+    const list = document.getElementById('profile-List');
+    const appendedItems = document.querySelectorAll('.appended-item');
+    appendedItems.forEach(item => item.remove());
+
+    if (e.matches) {
+      const li = document.createElement('li');
+      li.textContent = 'Write or Ask';
+      li.classList.add('appended-item');
+      list.prepend(li);
+      li.addEventListener('click', () => {
+        const user = auth.currentUser;
+        if (user) {
+          if (user.isAnonymous) {
+            alert('Anonymous users cannot access the blog. Please sign in with an email or Google account.');
+          } else {
+            window.location.href = 'blog.html';
+          }
+        } else {
+          alert('Please log in first.');
+        }
+      });
+    }
+  }
+
+  handleScreenChange(mediaQuery);
+  mediaQuery.addListener(handleScreenChange);
+
+  const qnaDataContainer = document.getElementById('qnaData');
+
+  async function fetchBlogs() {
+    try {
+      const querySnapshot = await getDocs(collection(db, 'blogs'));
+      const allBlogs = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      await displayBlogs(allBlogs);
+    } catch (error) {
+      console.error('Error fetching blogs:', error);
+    }
+  }
+
+  async function displayBlogs(blogs) {
+    qnaDataContainer.innerHTML = "";
+  
+    try {
+
+      for (const [index, data] of blogs.entries()) {
+        const div = document.createElement("div");
+        div.className = "question";
+        div.addEventListener('click', () => openBlog(data));
+        div.innerHTML = `
+          <div class="info-Data">
+            <div class="heading">
+              <h1>${data.title}</h1>
+            </div>
+            <div class="description">
+              <p>${data.description}</p>
+            </div>
+            <div class="admin-info">
+              <span class="admin-Name"><i class="fa-solid fa-user"></i> ${data.username ? data.username : data.email}</span>
+              <span class="issue-Date">${data.date}</span>
+            </div>
+          </div>
+          <div class="image-Section" id="image-Section-${index}">
+          </div>
+        `;
+        qnaDataContainer.appendChild(div);
+  
+        // Load images for the current blog
+        loadImages(data.id, `image-Section-${index}`);
+      }
+    } catch (error) {
+      console.error('Error displaying blogs:', error);
+    }
+  }
+
+
+  function openBlog(data) {
+    const user = auth.currentUser;
+    if (user) {
+      if (user.isAnonymous) {
+        alert('Anonymous users cannot access the blog. Please sign in with an email or Google account.');
+      } else {
+        const queryString = new URLSearchParams({
+          email: data.email,
+          title: data.title,
+          id: data.blogId,
+          description: data.description,
+          imageUrl: data.imageUrl, // Replace with actual image URL property
+          username: data.username,
+          date: data.date
+        }).toString();
+      
+        window.location.href = `blog-details.html?${queryString}`;
+      }
+    } else {
+      alert('Please log in first.');
+    }
+  }
+  await fetchBlogs();
+
+});
+
+async function loadImages(blogId, containerId) {
   try {
-    // Get a list of all items (images) in the specified directory
-    const itemsSnapshot = await getDownloadURL(storageRef);
+    const imagesContainer = document.getElementById(containerId);
+    const blogRef = doc(db, 'blogs', blogId);
+    const docSnapshot = await getDoc(blogRef);
 
-    // Map each item to its download URL
-    const imageUrls = itemsSnapshot.items.map((item) => item.downloadURL);
+    if (!docSnapshot.exists()) {
+      console.log('Blog with blogId not found:', blogId);
+      return;
+    }
 
-    return imageUrls; // Return an array of download URLs
+    const data = docSnapshot.data();
+    const imageUrl = data.imageUrl;
+
+    if (!imageUrl) {
+      console.log('No image URL found for blogId:', blogId);
+      return;
+    }
+
+    console.log('Loading image:', imageUrl);
+
+    const imgElement = document.createElement('img');
+    imgElement.src = imageUrl;
+    imagesContainer.appendChild(imgElement);
+
   } catch (error) {
-    console.error('Error fetching image URLs:', error);
-    throw error; // Throw the error to be caught by the caller
+    console.error('Error loading image:', error);
   }
 }
 
-// Function to load and display images
-async function loadImages() {
-  try {
-    // Fetch the image download URLs using getImageUrls function
-    const imageUrls = await getImageUrls();
 
-    // Reference to the image container
-    const imageContainer = document.getElementById('imageContainer');
 
-    // Create img elements for each image URL and append to the container
-    imageUrls.forEach((imageUrl) => {
-      const imgElement = document.createElement('img');
-      imgElement.src = imageUrl;
-      imageContainer.appendChild(imgElement);
-    });
-  } catch (error) {
-    console.error('Error loading images:', error);
-  }
-}
-
-document.addEventListener('DOMContentLoaded', loadImages);

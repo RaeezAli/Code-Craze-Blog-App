@@ -7,6 +7,11 @@
     box-sizing: border-box;
 }
 
+body {
+    height: 100vh;
+    background-color: #ADBC9F;
+}
+
 .header-Section {
     width: 100%;
     height: 80px;
@@ -54,22 +59,52 @@ h3 {
     font-weight: 900;
 }
 
-.button-section {
+.profile-section {
     width: 30%;
     height: 100%;
     display: flex;
-    justify-content: space-around;
+    justify-content: end;
     align-items: center;
+    padding: 0 60px 0 0;
+    font-weight: bold;
 }
 
-.button-section .logout-button{
-    color: white;
+.profile-info {
+    position: absolute;
+    width: 200px;
+    height: auto;
+    background-color: white;
+    border-radius: 10px;
+    display: none;
+    top: 65px;
+    right: 100px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+
+.profile-info ul {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    text-align: center;
+    padding: 2px;
+}
+
+.profile-info ul li {
+    width: 100%;
+    height: 35px;
+    color: #12372A;
+    list-style: none;
+    font-size: small;
+    padding: 10px 0 0 0;
+    user-select: none;
+    cursor: pointer;
+    transition: all 0.5 ease-in-out;
+}
+
+.profile-info ul li:hover {
     background-color: #12372A;
-    padding: 11px 28px;
-    border-radius: 25px;
-    border: 0;
-    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-    font-weight: bold;
+    color: white;
+    border-radius: 10px;
 }
 
 .main-Body {
@@ -145,6 +180,7 @@ h3 {
 .main-Body .solution .data .paragraph .image-section .image-url {
     width: 100%;
     height: 100%;
+    margin: 15px 0;
 }
 
 .main-Body .solution .data .paragraph .admin-info {
@@ -152,7 +188,7 @@ h3 {
     justify-content: space-between;
 }
 
-.main-Body .solution .data .paragraph .admin-info p span {
+.main-Body .solution .data .paragraph .admin-info :nth-child(p span) {
     font-family: 'Noto Sans', sans-serif;
 }
  
@@ -210,15 +246,39 @@ h3 {
     font-weight: 900;
 }
 
+.bkgd-green {
+    background-color: #12372A;
+    user-select: none;
+}
+
+.bkgd-green:hover {
+    cursor: pointer;
+}
+
 @media (min-width: 300px) and (max-width: 700px) { 
 
-    .header-Section {
-        display: none;
+    .logo-section {
+        width: 40%;
+        padding: 0 0 0 10px;
+    }
+
+    .logo {
+        font-size: 12px;
+    }
+
+    .profile-section {
+        width: 40%;
+        padding: 0 10px 0 0;
+    }
+
+    .profile-info {
+        right: 30px;
     }
 
     .main-Body .solution {
         width: 95%;
         padding: 10px 0;
+        border-radius: 5px;
     }
     
     .main-Body .solution .data {
@@ -296,6 +356,7 @@ h3 {
     
     .commentSection {
         width: 95%;
+        border-radius: 5px;
     }
         
     .commentSection .display {
@@ -308,6 +369,16 @@ h3 {
     .commentSection .display .image {
         width: 20%;
         height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .commentSection .display .image div {
+        width: 50%;
+        height: 50%;
+        font-size: 10px;
+        font-weight: bold;
         display: flex;
         justify-content: center;
         align-items: center;
