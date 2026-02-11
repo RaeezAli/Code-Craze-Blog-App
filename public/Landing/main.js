@@ -1,67 +1,72 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getStorage, ref , listAll, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
-import { getAuth , onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getFirestore, collection, getDocs, doc , getDoc} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-
-const firebaseConfig = {
-    apiKey: "AIzaSyBdEgmy88sot8nITGiit9Ujm1w4_dG5vBg",
-    authDomain: "code-craze-blog-app.firebaseapp.com",
-    databaseURL: "https://code-craze-blog-app-default-rtdb.firebaseio.com",
-    projectId: "code-craze-blog-app",
-    storageBucket: "code-craze-blog-app.appspot.com",
-    messagingSenderId: "812380418108",
-    appId: "1:812380418108:web:8aa1a0f43b0f98455d5339",
-    measurementId: "G-C6CK3W9WDC"
-  };
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-const storage = getStorage(app);
+import { auth, db, storage } from "../firebase.js";
+import { ref , listAll, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { collection, getDocs, doc , getDoc} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const profilePicture = document.getElementById('bkgd-green');
 const infoList = document.getElementById('profile-info');
 const logInOut = document.getElementById('log-in-out');
 const displayUserName = document.getElementById('user-name');
 const blogPage = document.getElementById('blog-button');
-const username = localStorage.getItem('name');
-const email = localStorage.getItem('email');
-const userPhotoUrl = localStorage.getItem('userPhoto');
 const displayUser = document.getElementById('displayUser');
+const searchBar = document.getElementById('searchBar');
+
+let allBlogsCache = [];
 
 
 profilePicture.addEventListener('click', function () {
   infoList.style.display = (infoList.style.display === 'none' || infoList.style.display === '') ? 'block' : 'none';
 });
 
-function updateUI(user) {
+function updateUI(user, userData = null) {
   
   if (user) {
-    displayUserName.textContent = user.isAnonymous ? "Anonymous User" : (email || "User");
+    let displayName = "User";
+
+    if (user.isAnonymous) {
+        displayName = "Anonymous User";
+    } else {
+        // Fallback chain: Firestore Username -> Firestore Email -> Auth Display Name -> Auth Email -> "User"
+        displayName = userData?.username || userData?.email || user.displayName || user.email || "User";
+    }
+
+    const firstLetter = displayName.charAt(0).toUpperCase();
+
+    displayUserName.textContent = displayName;
+    displayUser.textContent = firstLetter;
+    displayUserName.style.display = "block";
     logInOut.textContent = 'Log Out';
   } else {
     logInOut.textContent = 'Log In';
     displayUserName.style.display = "none";
-  }
-
-  
-  if(email) {
-    displayUser.textContent = email.charAt(0).toUpperCase();
+    displayUser.textContent = "U";
   }
 }
 
-onAuthStateChanged(auth, (user) => {
-  updateUI(user);
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+      // Fetch user data from Firestore
+      const userDocRef = doc(db, user.isAnonymous ? 'anonymousUsers' : 'users', user.uid);
+      try {
+          const userDoc = await getDoc(userDocRef);
+          if (userDoc.exists()) {
+              updateUI(user, userDoc.data());
+          } else {
+              updateUI(user);
+          }
+      } catch (error) {
+          console.error("Error fetching user data:", error);
+          updateUI(user);
+      }
+  } else {
+      updateUI(null);
+  }
 });
 
 logInOut.addEventListener('click', () => {
   if (auth.currentUser) {
     auth.signOut();
   }
-  localStorage.removeItem('userPhoto');
-  localStorage.removeItem('username');
-  localStorage.removeItem('email');
   window.location.href = 'login.html';
 });
 
@@ -116,11 +121,22 @@ document.addEventListener('DOMContentLoaded', async () => {
   async function fetchBlogs() {
     try {
       const querySnapshot = await getDocs(collection(db, 'blogs'));
-      const allBlogs = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      await displayBlogs(allBlogs);
+      allBlogsCache = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      await displayBlogs(allBlogsCache);
     } catch (error) {
       console.error('Error fetching blogs:', error);
     }
+  }
+
+  if (searchBar) {
+    searchBar.addEventListener('input', (e) => {
+      const searchTerm = e.target.value.toLowerCase();
+      const filteredBlogs = allBlogsCache.filter(blog => 
+        (blog.title && blog.title.toLowerCase().includes(searchTerm)) || 
+        (blog.description && blog.description.toLowerCase().includes(searchTerm))
+      );
+      displayBlogs(filteredBlogs);
+    });
   }
 
   async function displayBlogs(blogs) {

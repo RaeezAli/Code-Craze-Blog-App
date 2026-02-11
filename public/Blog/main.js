@@ -1,33 +1,15 @@
-
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
-import { getAuth , onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyBdEgmy88sot8nITGiit9Ujm1w4_dG5vBg",
-  authDomain: "code-craze-blog-app.firebaseapp.com",
-  databaseURL: "https://code-craze-blog-app-default-rtdb.firebaseio.com",
-  projectId: "code-craze-blog-app",
-  storageBucket: "code-craze-blog-app.appspot.com",
-  messagingSenderId: "812380418108",
-  appId: "1:812380418108:web:8aa1a0f43b0f98455d5339",
-  measurementId: "G-C6CK3W9WDC"
-};
-
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const auth = getAuth(app);
-const storage = getStorage(app);
-const userPhotoUrl = localStorage.getItem('userPhoto');
+import { auth, db, storage } from "../firebase.js";
+import { collection, addDoc, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 const cancelBtn = document.getElementById('cancle');
 const profilePicture = document.getElementById('profile-section');
 const infoList = document.getElementById('profile-info');
 const userName = document.getElementById('user-name');
 const logInOut = document.getElementById('log-in-out');
 const displayUser = document.getElementById('displayUser');
-const email = localStorage.getItem('email');
+
+let currentUserData = null;
 
 profilePicture.addEventListener('click', function () {
 
@@ -38,48 +20,60 @@ profilePicture.addEventListener('click', function () {
   }
 });
 
-function updateUI(user) {
+function updateUI(user, userData = null) {
 
   if (user) {
-      // User is signed in
+      let displayName = "User";
+
       if (user.isAnonymous) {
-        
-        userName.textContent = "Anonymous User";
-        logInOut.textContent = 'Log In';
+        displayName = "Anonymous User";
       } else {
-        
-          userName.textContent = email || "User";
-          logInOut.textContent = 'Log Out';
-          
+          // Fallback chain: Firestore Username -> Firestore Email -> Auth Display Name -> Auth Email -> "User"
+          displayName = userData?.username || userData?.email || user.displayName || user.email || "User";
       }
+      
+      const firstLetter = displayName.charAt(0).toUpperCase();
+
+      userName.textContent = displayName;
+      displayUser.textContent = firstLetter;
+      userName.style.display = "block";
+      logInOut.textContent = 'Log Out';
   } else {
-      // User is not signed in
-        logInOut.textContent = 'Log In';
+      logInOut.textContent = 'Log In';
       userName.style.display = "none";
+      displayUser.textContent = "U";
   }
-
-  if(email) {
-    displayUser.textContent = email.charAt(0).toUpperCase();
-  }
-
 }
 
 // Listen for changes in authentication state
-onAuthStateChanged(auth, (user) => {
-  updateUI(user); // Update UI based on authentication status
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+      const userDocRef = doc(db, user.isAnonymous ? 'anonymousUsers' : 'users', user.uid);
+      try {
+          const userDoc = await getDoc(userDocRef);
+          if (userDoc.exists()) {
+              currentUserData = userDoc.data();
+              updateUI(user, currentUserData);
+          } else {
+              updateUI(user);
+          }
+      } catch (error) {
+          console.error("Error fetching user data:", error);
+          updateUI(user);
+      }
+  } else {
+      updateUI(null);
+  }
 });
 
 logInOut.addEventListener('click', () => {
-
-
   if (auth.currentUser) {
-    auth.signOut();
-    window.location.href = 'login.html';
-
+    auth.signOut().then(() => {
+        window.location.href = 'login.html';
+    });
   } else {
     window.location.href = 'login.html';
   }
-
 });
 
 cancelBtn.addEventListener('click', () => {
@@ -97,8 +91,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const description = document.getElementById('description').value;
     const imageFile = document.getElementById('image').files[0];
 
-    const username = localStorage.getItem('username');
-
     if (title == '' || category == '' || type == '' || status == '' || description == '' || imageFile == '') {
       alert('Please fill in all required fields.');
       return;
@@ -107,13 +99,20 @@ document.addEventListener('DOMContentLoaded', () => {
     saveBtn.innerHTML = "Loading...";
     saveBtn.disabled = true;
 
-    await saveDataToFirestore(title, category, type, status, description, imageFile, username , email);
+    // Fallback logic for username and email to prevent blocking submission
+    const submitUsername = currentUserData?.username || auth.currentUser.displayName || auth.currentUser.email.split('@')[0] || "User";
+    const submitEmail = currentUserData?.email || auth.currentUser.email;
 
-    saveBtn.innerHTML = "Save";
-    saveBtn.disabled = false;
-
-    alert("Blog is saved successfully");
-    window.location.reload();
+    try {
+        await saveDataToFirestore(title, category, type, status, description, imageFile, submitUsername, submitEmail);
+        alert("Blog is saved successfully");
+        window.location.href = 'index.html'; 
+    } catch (error) {
+        alert("Failed to save blog: " + error.message);
+    } finally {
+        saveBtn.innerHTML = "Save";
+        saveBtn.disabled = false;
+    }
   });
 
   
