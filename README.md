@@ -56,8 +56,8 @@ Welcome to **Code CrazeHub**, a sleek, modern, and feature-rich blog application
 
 ## 📄 License
 
-This project is part of the Saylani Web & Mobile App Development course.
+This project is part of the Saylani Web Development course.
 
 ---
 
-_Built with ❤️ by Raeez Ali and the Code Craze community._
+_Built with ❤️ by Muhammad Ali._
